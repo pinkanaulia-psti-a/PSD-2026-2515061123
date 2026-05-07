@@ -1,0 +1,35 @@
+def sequential_search_nilai(data_nilai, n, target):
+    i = 0
+    counter = 0
+    while i < n:
+        print(f"[Log] Memeriksa data pada indeks ke-{i}: {data_nilai[i]}")
+        if data_nilai[i] == target:
+            counter += 1
+        i += 1
+    return counter
+
+def main():
+    data_nilai = [85, 70, 90, 85, 65, 85, 100, 75, 85, 60]
+    n = len(data_nilai)
+
+    print("=== SISTEM PENCARIAN NILAI SISWA ===")
+    print(f"Data Nilai: {data_nilai}")
+    
+    while True:
+        try:
+            target = int(input("Masukkan nilai yang ingin dicari: "))
+            break
+        except ValueError:
+            print("Kesalahan: Input tidak valid, harap masukkan angka!")
+
+    print("------------------------------------------")
+    jumlah_temuan = sequential_search_nilai(data_nilai, n, target)
+    print("------------------------------------------")
+
+    if jumlah_temuan > 0:
+        print(f"Hasil: Nilai {target} ditemukan sebanyak {jumlah_temuan} siswa.")
+    else:
+        print(f"Hasil: Nilai {target} tidak ditemukan dalam database.")
+
+if __name__ == "__main__":
+    main()
