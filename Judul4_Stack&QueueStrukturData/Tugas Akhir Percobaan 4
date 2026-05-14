@@ -1,0 +1,79 @@
+class StackArray:
+    def __init__(self, max_size=5):
+        self.MAX = max_size
+        self.st = [None] * self.MAX
+        self.top_idx = -1
+
+    def is_empty(self):
+        return self.top_idx == -1
+
+    def is_full(self):
+        return self.top_idx == self.MAX - 1
+
+    def push(self, x):
+        if self.is_full():
+            print("Rak Penuh!")
+            return
+        self.top_idx += 1
+        self.st[self.top_idx] = x
+        print(f"Piring [{x}] berhasil ditaruh ditumpukan.")
+
+    def pop(self):
+        if self.is_empty():
+            print("Rak Kosong! Tidak ada piring untuk diambil.")
+            return
+        print(f"Piring [{self.st[self.top_idx]}] diambil untuk pelanggan.")
+        self.top_idx -= 1
+
+    def peek(self):
+        if self.is_empty():
+            print("Stack kosong")
+            return
+        print(f"Piring paling atas saat ini: {self.st[self.top_idx]}")
+
+    def display(self):
+        if self.is_empty():
+            print("Rak kosong!")
+            return
+        print("Susunan piring di rak (Atas ke Bawah):")
+        for i in range(self.top_idx, -1, -1):
+            print(f"|  {self.st[i]}  |")
+        print("-------")
+
+def main():
+    rak_piring = StackArray(max_size=5)
+    
+    while True:
+        print("\n=== SISTEM MANAJEMEN PIRING ===")
+        print("1. Taruh Piring")
+        print("2. Ambil Piring")
+        print("3. Cek Piring Teratas")
+        print("4. Lihat Semua Tumpukan")
+        print("5. Tutup Restoran")
+        
+        try:
+            pilih = int(input("Pilih: "))
+        except ValueError:
+            print("Masukkan angka")
+            continue
+
+        if pilih == 1:
+            try:
+                val = input("Masukkan ID/Merk Piring: ") 
+                rak_piring.push(val)
+            except ValueError:
+                print("Input tidak valid!")
+        elif pilih == 2:
+            rak_piring.pop()
+        elif pilih == 3:
+            rak_piring.peek()
+        elif pilih == 4:
+            rak_piring.display()
+        elif pilih == 5:
+            print("Restoran tutup. Sampai jumpa!")
+            break
+        else:
+            print("Pilihan salah!")
+
+if __name__ == "__main__":
+    main()
