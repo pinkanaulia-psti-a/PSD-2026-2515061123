@@ -1,1 +1,148 @@
 
+class Node:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None
+
+
+class BSTDasar:
+    def __init__(self):
+        self.root = None
+
+    def insert_node(self, root, key):
+        if root is None:
+            return Node(key)
+        if key < root.key:
+            root.left = self.insert_node(root.left, key)
+        elif key > root.key:
+            root.right = self.insert_node(root.right, key)
+        return root
+
+    def insert(self, key):
+        self.root = self.insert_node(self.root, key)
+
+    def search_node(self, root, key):
+        if root is None:
+            return False
+        if root.key == key:
+            return True
+        if key < root.key:
+            return self.search_node(root.left, key)
+        return self.search_node(root.right, key)
+
+    def search(self, key):
+        return self.search_node(self.root, key)
+
+    def inorder(self, root):
+        if root is None:
+            return
+        self.inorder(root.left)
+        print(f"[Tiket #{root.key}]", end=" ")
+        self.inorder(root.right)
+
+    def preorder(self, root):
+        if root is None:
+            return
+        print(f"[Tiket #{root.key}]", end=" ")
+        self.preorder(root.left)
+        self.preorder(root.right)
+
+    def postorder(self, root):
+        if root is None:
+            return
+        self.postorder(root.left)
+        self.postorder(root.right)
+        print(f"[Tiket #{root.key}]", end=" ")
+
+    def find_min(self, root):
+        if root is None:
+            return -1
+        current = root
+        while current.left is not None:
+            current = current.left
+        return current.key
+
+    def find_max(self, root):
+        if root is None:
+            return -1
+        current = root
+        while current.right is not None:
+            current = current.right
+        return current.key
+
+    def count_nodes(self, root):
+        if root is None:
+            return 0
+        return 1 + self.count_nodes(root.left) + self.count_nodes(root.right)
+
+    def sum_nodes(self, root):
+        if root is None:
+            return 0
+        return root.key + self.sum_nodes(root.left) + self.sum_nodes(root.right)
+
+
+def main():
+    bst = BSTDasar()
+    pilih = 0
+    while pilih != 10:
+        print("\n=== SISTEM MANAJEMEN TIKET KONSER ===")
+        print("1. Daftarkan Nomor Tiket Penonton Baru")
+        print("2. Scan / Cek Validasi Nomor Tiket Penonton")
+        print("3. Tampilkan Urutan Masuk Penonton (Dari Tiket Terkecil)")
+        print("4. Tampilkan Struktur Pohon Antrean (Preorder)")
+        print("5. Tampilkan Struktur Pohon Antrean (Postorder)")
+        print("6. Lihat Nomor Tiket Pertama yang Masuk Venues (Min)")
+        print("7. Lihat Nomor Tiket Terakhir yang Masuk Venues (Max)")
+        print("8. Hitung Total Penonton yang Berada di Dalam Gudang Konser")
+        print("9. Hitung Total Estimasi Pendapatan Konser (Sum Nilai Tiket)")
+        print("10. Matikan Sistem Gerbang Konser")
+        try:
+            pilih = int(input("Masukkan Pilihan Menu (1-10): "))
+        except ValueError:
+            print("Pilihan harus berupa angka!")
+            continue
+        if pilih == 1:
+            try:
+                x = int(input("Masukkan nomor kode tiket baru (angka): "))
+                bst.insert(x)
+                print(f"Sukses: Tiket #{x} berhasil terdaftar di sistem pintu masuk.")
+            except ValueError:
+                print("Input kode tiket tidak valid!")
+        elif pilih == 2:
+            try:
+                x = int(input("Scan / Masukkan nomor tiket penonton: "))
+                if bst.search(x):
+                    print("VALID: Penonton diizinkan masuk ke area konser!")
+                else:
+                    print("INVALID: Tiket tidak terdaftar atau palsu!")
+            except ValueError:
+                print("Input tidak valid!")
+        elif pilih == 3:
+            print("Urutan Penonton Masuk Area (Inorder): ", end="")
+            bst.inorder(bst.root)
+            print()
+        elif pilih == 4:
+            print("Alur Pengecekan Sistem (Preorder): ", end="")
+            bst.preorder(bst.root)
+            print()
+        elif pilih == 5:
+            print("Alur Pembongkaran Sistem (Postorder): ", end="")
+            bst.postorder(bst.root)
+            print()
+        elif pilih == 6:
+            print(f"Nomor Tiket Paling Pertama/VIP: {bst.find_min(bst.root)}")
+        elif pilih == 7:
+            print(f"Nomor Tiket Paling Terakhir/Reguler: {bst.find_max(bst.root)}")
+        elif pilih == 8:
+            print(f"Jumlah Penonton di Dalam Venue saat ini: {bst.count_nodes(bst.root)} orang")
+        elif pilih == 9:
+            print(f"Total Nilai Konversi Tiket Terjual: Rp {bst.sum_nodes(bst.root)}")
+        elif pilih == 10:
+            print("Sistem gerbang dimatikan. Selamat menikmati konser!")
+        else:
+            print("Pilihan menu tidak tersedia!")
+
+
+if __name__ == "__main__":
+    main()
